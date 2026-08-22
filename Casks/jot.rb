@@ -7,7 +7,7 @@ cask "jot" do
   desc "Fast, native, plain-text scratchpad for macOS"
   homepage "https://github.com/lsuryatej/jot"
 
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "Jot.app"
 

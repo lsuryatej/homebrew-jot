@@ -11,6 +11,19 @@ cask "jot" do
 
   app "Jot.app"
 
+  # Jot is ad-hoc signed, not notarized — there is no paid Apple Developer
+  # account behind this project. Homebrew's own download-and-stage process
+  # applies the quarantine attribute to the archive the same way a browser
+  # download would, which is what triggers Gatekeeper's "Not Opened" dialog
+  # on first launch. install.sh (the non-Homebrew install path) strips this
+  # itself, but that script never runs for a `brew install` — this postflight
+  # is the equivalent for the Homebrew path, so quarantine never has a chance
+  # to block the first launch here either.
+  postflight do
+    system_command "/usr/bin/xattr",
+                    args: ["-cr", "#{appdir}/Jot.app"]
+  end
+
   zap trash: [
     "~/Library/Application Support/Jot",
     "~/Library/Preferences/com.suryatejlalam.Jot.plist",

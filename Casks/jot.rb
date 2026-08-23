@@ -1,6 +1,6 @@
 cask "jot" do
-  version "1.1.0"
-  sha256 "b86765838cf00e2a6df226e4e2763d1b82375ab98c636791c1359e1a089a034d"
+  version "1.2.0"
+  sha256 "3f1e4935bc5ddd0b9fca664fcf2844645d4cfa52ca0c41cc1936fde85a58b7b6"
 
   url "https://github.com/lsuryatej/jot/releases/download/v#{version}/Jot-#{version}.zip"
   name "Jot"

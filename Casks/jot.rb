@@ -4,7 +4,7 @@ cask "jot" do
 
   url "https://github.com/lsuryatej/jot/releases/download/v#{version}/Jot-#{version}.zip"
   name "Jot"
-  desc "Fast, native, plain-text scratchpad for macOS"
+  desc "Fast, native, plain-text scratchpad"
   homepage "https://github.com/lsuryatej/jot"
 
   depends_on macos: :sonoma
@@ -19,9 +19,16 @@ cask "jot" do
   # itself, but that script never runs for a `brew install` — this postflight
   # is the equivalent for the Homebrew path, so quarantine never has a chance
   # to block the first launch here either.
-  postflight do
-    system_command "/usr/bin/xattr",
-                    args: ["-cr", "#{appdir}/Jot.app"]
+  #
+  # This is the declarative `postflight_steps` form rather than the older
+  # `postflight do ... end` block, which Homebrew now warns about on every
+  # install. Steps run inside a sandbox, so `{{appdir}}` is expanded by the
+  # runner instead of by Ruby string interpolation, and the app bundle has to
+  # be named as writable for xattr to be allowed to touch it.
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args:           ["-cr", "{{appdir}}/Jot.app"],
+        writable_paths: ["{{appdir}}/Jot.app"]
   end
 
   zap trash: [
